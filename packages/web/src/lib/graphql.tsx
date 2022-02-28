@@ -58,6 +58,7 @@ export type Mutation = {
   createTodo: Todo;
   destroyAccount: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
+  generateStarwars: Starwars;
   getBulkSignedS3UrlForPut?: Maybe<Array<SignedResponse>>;
   getSignedS3UrlForPut?: Maybe<SignedResponse>;
   login: AuthResponse;
@@ -159,6 +160,7 @@ export type NestedStringNullableFilter = {
 
 export type Query = {
   __typename?: 'Query';
+  allStarwars: Array<Starwars>;
   allTodos: Array<Todo>;
   getSignedS3UrlForGet?: Maybe<Scalars['String']>;
   me?: Maybe<User>;
@@ -251,6 +253,14 @@ export enum SortOrder {
   Asc = 'asc',
   Desc = 'desc'
 }
+
+export type Starwars = {
+  __typename?: 'Starwars';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
 
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']>;
@@ -492,6 +502,16 @@ export type ResetPasswordMutationVariables = Exact<{
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
 
+export type GenerateStarwarsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GenerateStarwarsMutation = { __typename?: 'Mutation', generateStarwars: { __typename?: 'Starwars', id: string, name: string } };
+
+export type AllStarwarsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllStarwarsQuery = { __typename?: 'Query', allStarwars: Array<{ __typename?: 'Starwars', id: string, name: string }> };
+
 export type CreateTodoMutationVariables = Exact<{
   data: TodoInput;
 }>;
@@ -726,6 +746,40 @@ export function useResetPasswordMutation(baseOptions?: Apollo.MutationHookOption
 export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
 export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
 export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export const GenerateStarwarsDocument = gql`
+    mutation GenerateStarwars {
+  generateStarwars {
+    id
+    name
+  }
+}
+    `;
+export function useGenerateStarwarsMutation(baseOptions?: Apollo.MutationHookOptions<GenerateStarwarsMutation, GenerateStarwarsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateStarwarsMutation, GenerateStarwarsMutationVariables>(GenerateStarwarsDocument, options);
+      }
+export type GenerateStarwarsMutationHookResult = ReturnType<typeof useGenerateStarwarsMutation>;
+export type GenerateStarwarsMutationResult = Apollo.MutationResult<GenerateStarwarsMutation>;
+export type GenerateStarwarsMutationOptions = Apollo.BaseMutationOptions<GenerateStarwarsMutation, GenerateStarwarsMutationVariables>;
+export const AllStarwarsDocument = gql`
+    query AllStarwars {
+  allStarwars {
+    id
+    name
+  }
+}
+    `;
+export function useAllStarwarsQuery(baseOptions?: Apollo.QueryHookOptions<AllStarwarsQuery, AllStarwarsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllStarwarsQuery, AllStarwarsQueryVariables>(AllStarwarsDocument, options);
+      }
+export function useAllStarwarsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllStarwarsQuery, AllStarwarsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllStarwarsQuery, AllStarwarsQueryVariables>(AllStarwarsDocument, options);
+        }
+export type AllStarwarsQueryHookResult = ReturnType<typeof useAllStarwarsQuery>;
+export type AllStarwarsLazyQueryHookResult = ReturnType<typeof useAllStarwarsLazyQuery>;
+export type AllStarwarsQueryResult = Apollo.QueryResult<AllStarwarsQuery, AllStarwarsQueryVariables>;
 export const CreateTodoDocument = gql`
     mutation CreateTodo($data: TodoInput!) {
   createTodo(data: $data) {
