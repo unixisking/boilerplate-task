@@ -1,0 +1,63 @@
+{
+  "name": "@boilerplate/app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "expo start",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "generate": "DEBUG=true graphql-codegen",
+    "generate:watch": "graphql-codegen --watch",
+    "lint": "eslint --cache --ext .ts,.tsx,.js ./",
+    "lint:fix": "eslint --fix --config .eslintrc.commit.js --cache --ext .ts,.tsx,.js ./",
+    "prettify": "prettier --write ./ --ignore-path ../../.prettierignore",
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.(js|jsx|json|ts|tsx|html)|!graphql.tsx": [
+      "prettier --write --ignore-path ../../.prettierignore"
+    ],
+    "*.(js|ts|tsx)|!graphql.tsx": [
+      "eslint --fix --config .eslintrc.commit.js"
+    ]
+  },
+  "dependencies": {
+    "@apollo/client": "3.5.8",
+    "@react-native-async-storage/async-storage": "1.15.17",
+    "@react-navigation/core": "6.1.1",
+    "@react-navigation/native": "6.0.8",
+    "@react-navigation/native-stack": "6.5.0",
+    "@react-navigation/stack": "6.1.1",
+    "expo": "44.0.6",
+    "expo-status-bar": "1.2.0",
+    "graphql": "15.8.0",
+    "graphql-tag": "2.12.6",
+    "native-base": "3.3.6",
+    "polished": "4.1.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-native": "0.64.3",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.10.1",
+    "react-native-svg": "12.1.1",
+    "react-native-web": "0.17.5",
+    "styled-components": "5.3.3",
+    "styled-system": "5.1.5"
+  },
+  "devDependencies": {
+    "@babel/core": "7.17.2",
+    "@graphql-codegen/add": "3.1.1",
+    "@graphql-codegen/cli": "2.6.1",
+    "@graphql-codegen/typescript": "2.4.3",
+    "@graphql-codegen/typescript-operations": "2.3.0",
+    "@graphql-codegen/typescript-react-apollo": "3.2.6",
+    "@types/react": "17.0.39",
+    "@types/react-native": "0.66.15",
+    "eslint-plugin-react": "7.28.0",
+    "eslint-plugin-react-hooks": "4.3.0"
+  },
+  "private": true
+}
