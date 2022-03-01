@@ -6,9 +6,6 @@ import { BaseModel } from "../shared/base.model"
 @ObjectType()
 export class Todo extends BaseModel implements Prisma.Todo {
   @Field()
-  id: string
-
-  @Field()
   title: string
 
   @Field()
@@ -16,10 +13,4 @@ export class Todo extends BaseModel implements Prisma.Todo {
 
   @Field()
   completed: boolean
-
-  @Field()
-  createdAt: Date
-
-  @Field()
-  updatedAt: Date
 }

@@ -1,4 +1,15 @@
-# Project Setup
+
+## Table of Contents
+- [Project Setup](#project-setup)
+	- [1. Installing packages](#1-installing-packages)
+	- [2. Running the project](#2-running-the-project)
+- [Feature: Add a Todo Model](#feature-add-a-todo-model)
+	- [1. Backend API](#1-backend-api)
+	- [2. Frontend](#2-frontend)
+- [Generate Starwars names using SWAPI](#generate-starwars-names-using-swapi)
+	- [1. Backend API](#1-backend-api-1)
+	- [2. Frontend](#2-frontend-1)
+# Project Setup 
 
 As mentionned in the boilerplate readme, this project requires postgresql and redis installed.
 
@@ -71,7 +82,7 @@ model Todo {
 }
 ```
 
-2. Generate a migrating by running this command
+2. Generate a migration by running this command
 
 	```
 	yarn db:migrate
@@ -107,7 +118,7 @@ model Todo {
 	```
 
 > **_NOTE:_**  
-Using [type-graphql](https://typegraphql.com/docs/introduction.html) and classes to define a GraphQL schema as opposed to [SDL](https://graphql.org/learn/schema/) eliminates field type mismatches between your GraphQL API and our data layer, typos and annoying refactoring.
+Using [type-graphql](https://typegraphql.com/docs/introduction.html) and classes to define a GraphQL schema as opposed to [SDL](https://graphql.org/learn/schema/) eliminates field type mismatches between the GraphQL API and the data layer, typos and annoying refactoring.
 
 
 
@@ -258,9 +269,9 @@ export default function Todo() {
 
   const onSubmit = (data: TodoInput) => {
     return form.handler(() => createTodo({ variables: { data: { ...data, userId: me?.id || "" } } }), {
-      onSuccess: async (responseData) => {
+      onSuccess: async () => {
         toast({
-          title: "Toddo created",
+          title: "Todo created",
           description: "You recent todo was succesfully created!",
           status: "success",
         })
@@ -338,12 +349,12 @@ cd packages/api
 
 	```prisma
 	model Starwars {
-	id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-	name String
+		id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+		name String
 	}
 	```
 
-2. Generate a migrating by running this command
+2. Generate a migration by running this command
 
 	```
 	yarn db:migrate

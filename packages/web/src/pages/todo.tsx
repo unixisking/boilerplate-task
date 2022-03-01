@@ -31,7 +31,7 @@ const _ = gql`
   }
 `
 
-export default function Home() {
+export default function Todo() {
   const toast = useToast()
   const { me, loading: meLoading } = useMe()
   const [createTodo] = useCreateTodoMutation()
@@ -44,9 +44,9 @@ export default function Home() {
 
   const onSubmit = (data: TodoInput) => {
     return form.handler(() => createTodo({ variables: { data: { ...data, userId: me?.id || "" } } }), {
-      onSuccess: async (responseData) => {
+      onSuccess: async () => {
         toast({
-          title: "Toddo created",
+          title: "Todo created",
           description: "You recent todo was succesfully created!",
           status: "success",
         })
@@ -100,4 +100,4 @@ export default function Home() {
   )
 }
 
-Home.getLayout = (page: React.ReactNode) => <HomeLayout>{page}</HomeLayout>
+Todo.getLayout = (page: React.ReactNode) => <HomeLayout>{page}</HomeLayout>

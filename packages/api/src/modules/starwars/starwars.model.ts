@@ -6,14 +6,5 @@ import { BaseModel } from "../shared/base.model"
 @ObjectType()
 export class Starwars extends BaseModel implements Prisma.Starwars {
   @Field()
-  id: string
-
-  @Field()
   name: string
-
-  @Field()
-  createdAt: Date
-
-  @Field()
-  updatedAt: Date
 }

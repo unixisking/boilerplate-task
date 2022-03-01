@@ -27,7 +27,7 @@ const _ = gql`
   }
 `
 
-export default function Home() {
+export default function Starwars() {
   const form = useForm()
   const toast = useToast()
   const { me, loading: meLoading } = useMe()
@@ -84,4 +84,4 @@ export default function Home() {
   )
 }
 
-Home.getLayout = (page: React.ReactNode) => <HomeLayout>{page}</HomeLayout>
+Starwars.getLayout = (page: React.ReactNode) => <HomeLayout>{page}</HomeLayout>
