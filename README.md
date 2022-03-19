@@ -16,47 +16,37 @@ As mentionned in the boilerplate readme, this project requires postgresql and re
 Please refer to the orginal readme for more info.
 
 ## 1. Installing packages
-1. Install packages in the root folder.
+
+1. Delete the app folder if you're working on a pure web project.
+
+	```bash
+	rm -rf packages/app
+	```
+2. Install packages in the root folder.
 
 	```
 	yarn install
 	```
 
-2. Delete the app folder if you're working on a pure web project.
-
-	```bash
-	rm -rf packages/app
-	```
-
-3. Install modules on the web and api packages
-	```bash
-	cd packages/web && yarn install
-	cd ../api && yarn install # installing api packages automatically triggers a prisma generate commnd which will generate the Prisma Client
-	```
 ## 2. Running the project
-1. Run the web dev server
-	```bash
-	cd packages/web && yarn dev
-	```
-2. Before running the GraphQL API, add the connection string to your Postgresql database.
+
+1. Before running the project, add the connection string to your Postgresql database.
 
 	```bash
-	cp .env.example  .env
+	cp packages/api/.env.example  packages/api/.env
 	```
 	```bash
 	# Replace <user>,<password> and <db-name> with your corresponding username,password, and database name of your postgresql database.
 	DATABASE_URL=postgresql://john:doe@localhost:5432/postgres
 	```
 
-3. Run the API dev server
-
+3. Run the project
 	```
 	yarn dev
 	```
 
-
 > **_NOTE:_**  
-While working on the project, you can run ``` yarn generate:watch ``` to be able to watch for any newly created queries and create the corresponding types for them.
+While working on the project, you can run ``` yarn generate:watch ``` in the web package to be able to watch for any newly created queries and create the corresponding types for them.
 
 
 # Feature: Add a Todo Model
