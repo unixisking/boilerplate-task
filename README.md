@@ -315,7 +315,7 @@ export default function Todo() {
   )
 }
 
-Home.getLayout = (page: React.ReactNode) => <HomeLayout>{page}</HomeLayout>
+Todo.getLayout = (page: React.ReactNode) => <HomeLayout>{page}</HomeLayout>
 
 ```
 
