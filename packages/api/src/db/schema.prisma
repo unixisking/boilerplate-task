@@ -30,4 +30,20 @@ model User {
   bio       String?
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+  Todo      Todo[]
+}
+
+model Todo {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title     String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.Uuid
+  completed Boolean? @default(false)
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @db.Timestamptz(6)
+}
+
+model Starwars {
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name String
 }

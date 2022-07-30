@@ -25,6 +25,11 @@ export type AuthResponse = {
   user: User;
 };
 
+export type BoolNullableFilter = {
+  equals?: InputMaybe<Scalars['Boolean']>;
+  not?: InputMaybe<NestedBoolNullableFilter>;
+};
+
 export type DateTimeFilter = {
   equals?: InputMaybe<Scalars['DateTime']>;
   gt?: InputMaybe<Scalars['DateTime']>;
@@ -50,14 +55,21 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createTodo: Todo;
   destroyAccount: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
+  generateStarwars: Starwars;
   getBulkSignedS3UrlForPut?: Maybe<Array<SignedResponse>>;
   getSignedS3UrlForPut?: Maybe<SignedResponse>;
   login: AuthResponse;
   register: AuthResponse;
   resetPassword: Scalars['Boolean'];
   updateMe: User;
+};
+
+
+export type MutationCreateTodoArgs = {
+  data: TodoInput;
 };
 
 
@@ -93,6 +105,11 @@ export type MutationResetPasswordArgs = {
 
 export type MutationUpdateMeArgs = {
   data: UpdateUserInput;
+};
+
+export type NestedBoolNullableFilter = {
+  equals?: InputMaybe<Scalars['Boolean']>;
+  not?: InputMaybe<NestedBoolNullableFilter>;
 };
 
 export type NestedDateTimeFilter = {
@@ -143,9 +160,12 @@ export type NestedStringNullableFilter = {
 
 export type Query = {
   __typename?: 'Query';
+  allStarwars: Array<Starwars>;
+  allTodos: Array<Todo>;
   getSignedS3UrlForGet?: Maybe<Scalars['String']>;
   me?: Maybe<User>;
   refreshToken: RefreshTokenResponse;
+  todo: Todo;
   user?: Maybe<User>;
   users: UsersResponse;
 };
@@ -158,6 +178,11 @@ export type QueryGetSignedS3UrlForGetArgs = {
 
 export type QueryRefreshTokenArgs = {
   refreshToken: Scalars['String'];
+};
+
+
+export type QueryTodoArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -229,6 +254,14 @@ export enum SortOrder {
   Desc = 'desc'
 }
 
+export type Starwars = {
+  __typename?: 'Starwars';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']>;
   endsWith?: InputMaybe<Scalars['String']>;
@@ -259,6 +292,44 @@ export type StringNullableFilter = {
   startsWith?: InputMaybe<Scalars['String']>;
 };
 
+export type Todo = {
+  __typename?: 'Todo';
+  completed: Scalars['Boolean'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  userId: Scalars['String'];
+};
+
+export type TodoInput = {
+  title: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type TodoListRelationFilter = {
+  every?: InputMaybe<TodoWhereInput>;
+  none?: InputMaybe<TodoWhereInput>;
+  some?: InputMaybe<TodoWhereInput>;
+};
+
+export type TodoOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>;
+};
+
+export type TodoWhereInput = {
+  AND?: InputMaybe<Array<TodoWhereInput>>;
+  NOT?: InputMaybe<Array<TodoWhereInput>>;
+  OR?: InputMaybe<Array<TodoWhereInput>>;
+  completed?: InputMaybe<BoolNullableFilter>;
+  createdAt?: InputMaybe<DateTimeFilter>;
+  id?: InputMaybe<StringFilter>;
+  title?: InputMaybe<StringFilter>;
+  updatedAt?: InputMaybe<DateTimeFilter>;
+  user?: InputMaybe<UserRelationFilter>;
+  userId?: InputMaybe<StringFilter>;
+};
+
 export type UpdateUserInput = {
   avatar?: InputMaybe<Scalars['String']>;
   bio?: InputMaybe<Scalars['String']>;
@@ -283,6 +354,7 @@ export type User = {
 };
 
 export type UserOrderByWithRelationInput = {
+  Todo?: InputMaybe<TodoOrderByRelationAggregateInput>;
   avatar?: InputMaybe<SortOrder>;
   bio?: InputMaybe<SortOrder>;
   createdAt?: InputMaybe<SortOrder>;
@@ -293,6 +365,11 @@ export type UserOrderByWithRelationInput = {
   password?: InputMaybe<SortOrder>;
   role?: InputMaybe<SortOrder>;
   updatedAt?: InputMaybe<SortOrder>;
+};
+
+export type UserRelationFilter = {
+  is?: InputMaybe<UserWhereInput>;
+  isNot?: InputMaybe<UserWhereInput>;
 };
 
 export enum UserScalarFieldEnum {
@@ -312,6 +389,7 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  Todo?: InputMaybe<TodoListRelationFilter>;
   avatar?: InputMaybe<StringNullableFilter>;
   bio?: InputMaybe<StringNullableFilter>;
   createdAt?: InputMaybe<DateTimeFilter>;
@@ -335,35 +413,35 @@ export type UsersResponse = {
   items: Array<User>;
 };
 
-export type MeFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null | undefined, email: string, role: Role };
+export type MeFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null, email: string, role: Role };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null | undefined, email: string, role: Role } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null, email: string, role: Role } | null };
 
 export type GetSignedUrlForPutMutationVariables = Exact<{
   data: S3SignedUrlInput;
 }>;
 
 
-export type GetSignedUrlForPutMutation = { __typename?: 'Mutation', getSignedS3UrlForPut?: { __typename?: 'SignedResponse', url: string, uploadUrl: string } | null | undefined };
+export type GetSignedUrlForPutMutation = { __typename?: 'Mutation', getSignedS3UrlForPut?: { __typename?: 'SignedResponse', url: string, uploadUrl: string } | null };
 
 export type GetBulkSignedUrlForPutMutationVariables = Exact<{
   data: S3BulkSignedUrlInput;
 }>;
 
 
-export type GetBulkSignedUrlForPutMutation = { __typename?: 'Mutation', getBulkSignedS3UrlForPut?: Array<{ __typename?: 'SignedResponse', url: string, uploadUrl: string, key: string }> | null | undefined };
+export type GetBulkSignedUrlForPutMutation = { __typename?: 'Mutation', getBulkSignedS3UrlForPut?: Array<{ __typename?: 'SignedResponse', url: string, uploadUrl: string, key: string }> | null };
 
-export type UserDetailFragment = { __typename?: 'User', id: string, fullName: string, bio?: string | null | undefined, avatar?: string | null | undefined, email: string, createdAt: string };
+export type UserDetailFragment = { __typename?: 'User', id: string, fullName: string, bio?: string | null, avatar?: string | null, email: string, createdAt: string };
 
 export type GetUserQueryVariables = Exact<{
   where?: InputMaybe<UserWhereInput>;
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, fullName: string, bio?: string | null | undefined, avatar?: string | null | undefined, email: string, createdAt: string } | null | undefined };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, fullName: string, bio?: string | null, avatar?: string | null, email: string, createdAt: string } | null };
 
 export type UserItemFragment = { __typename?: 'User', id: string, fullName: string, email: string, createdAt: string };
 
@@ -396,14 +474,14 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', token: string, refreshToken: string, user: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null | undefined, email: string, role: Role } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', token: string, refreshToken: string, user: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null, email: string, role: Role } } };
 
 export type UpdateMeMutationVariables = Exact<{
   data: UpdateUserInput;
 }>;
 
 
-export type UpdateMeMutation = { __typename?: 'Mutation', updateMe: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null | undefined, email: string, role: Role } };
+export type UpdateMeMutation = { __typename?: 'Mutation', updateMe: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null, email: string, role: Role } };
 
 export type DestroyAccountMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -415,7 +493,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'AuthResponse', token: string, refreshToken: string, user: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null | undefined, email: string, role: Role } } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'AuthResponse', token: string, refreshToken: string, user: { __typename?: 'User', id: string, firstName: string, lastName: string, fullName: string, avatar?: string | null, email: string, role: Role } } };
 
 export type ResetPasswordMutationVariables = Exact<{
   data: ResetPasswordInput;
@@ -423,6 +501,28 @@ export type ResetPasswordMutationVariables = Exact<{
 
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: boolean };
+
+export type GenerateStarwarsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GenerateStarwarsMutation = { __typename?: 'Mutation', generateStarwars: { __typename?: 'Starwars', id: string, name: string } };
+
+export type AllStarwarsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllStarwarsQuery = { __typename?: 'Query', allStarwars: Array<{ __typename?: 'Starwars', id: string, name: string }> };
+
+export type CreateTodoMutationVariables = Exact<{
+  data: TodoInput;
+}>;
+
+
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', id: string, title: string, userId: string } };
+
+export type AllTodosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllTodosQuery = { __typename?: 'Query', allTodos: Array<{ __typename?: 'Todo', id: string, title: string, userId: string }> };
 
 export const MeFragmentDoc = gql`
     fragment Me on User {
@@ -646,3 +746,73 @@ export function useResetPasswordMutation(baseOptions?: Apollo.MutationHookOption
 export type ResetPasswordMutationHookResult = ReturnType<typeof useResetPasswordMutation>;
 export type ResetPasswordMutationResult = Apollo.MutationResult<ResetPasswordMutation>;
 export type ResetPasswordMutationOptions = Apollo.BaseMutationOptions<ResetPasswordMutation, ResetPasswordMutationVariables>;
+export const GenerateStarwarsDocument = gql`
+    mutation GenerateStarwars {
+  generateStarwars {
+    id
+    name
+  }
+}
+    `;
+export function useGenerateStarwarsMutation(baseOptions?: Apollo.MutationHookOptions<GenerateStarwarsMutation, GenerateStarwarsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<GenerateStarwarsMutation, GenerateStarwarsMutationVariables>(GenerateStarwarsDocument, options);
+      }
+export type GenerateStarwarsMutationHookResult = ReturnType<typeof useGenerateStarwarsMutation>;
+export type GenerateStarwarsMutationResult = Apollo.MutationResult<GenerateStarwarsMutation>;
+export type GenerateStarwarsMutationOptions = Apollo.BaseMutationOptions<GenerateStarwarsMutation, GenerateStarwarsMutationVariables>;
+export const AllStarwarsDocument = gql`
+    query AllStarwars {
+  allStarwars {
+    id
+    name
+  }
+}
+    `;
+export function useAllStarwarsQuery(baseOptions?: Apollo.QueryHookOptions<AllStarwarsQuery, AllStarwarsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllStarwarsQuery, AllStarwarsQueryVariables>(AllStarwarsDocument, options);
+      }
+export function useAllStarwarsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllStarwarsQuery, AllStarwarsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllStarwarsQuery, AllStarwarsQueryVariables>(AllStarwarsDocument, options);
+        }
+export type AllStarwarsQueryHookResult = ReturnType<typeof useAllStarwarsQuery>;
+export type AllStarwarsLazyQueryHookResult = ReturnType<typeof useAllStarwarsLazyQuery>;
+export type AllStarwarsQueryResult = Apollo.QueryResult<AllStarwarsQuery, AllStarwarsQueryVariables>;
+export const CreateTodoDocument = gql`
+    mutation CreateTodo($data: TodoInput!) {
+  createTodo(data: $data) {
+    id
+    title
+    userId
+  }
+}
+    `;
+export function useCreateTodoMutation(baseOptions?: Apollo.MutationHookOptions<CreateTodoMutation, CreateTodoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTodoMutation, CreateTodoMutationVariables>(CreateTodoDocument, options);
+      }
+export type CreateTodoMutationHookResult = ReturnType<typeof useCreateTodoMutation>;
+export type CreateTodoMutationResult = Apollo.MutationResult<CreateTodoMutation>;
+export type CreateTodoMutationOptions = Apollo.BaseMutationOptions<CreateTodoMutation, CreateTodoMutationVariables>;
+export const AllTodosDocument = gql`
+    query AllTodos {
+  allTodos {
+    id
+    title
+    userId
+  }
+}
+    `;
+export function useAllTodosQuery(baseOptions?: Apollo.QueryHookOptions<AllTodosQuery, AllTodosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllTodosQuery, AllTodosQueryVariables>(AllTodosDocument, options);
+      }
+export function useAllTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllTodosQuery, AllTodosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllTodosQuery, AllTodosQueryVariables>(AllTodosDocument, options);
+        }
+export type AllTodosQueryHookResult = ReturnType<typeof useAllTodosQuery>;
+export type AllTodosLazyQueryHookResult = ReturnType<typeof useAllTodosLazyQuery>;
+export type AllTodosQueryResult = Apollo.QueryResult<AllTodosQuery, AllTodosQueryVariables>;

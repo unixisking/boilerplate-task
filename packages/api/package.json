@@ -55,6 +55,7 @@
     "ioredis": "4.28.5",
     "jsonwebtoken": "8.5.1",
     "morgan": "1.10.0",
+    "node-fetch": "2",
     "nodemailer": "6.7.2",
     "pg": "8.7.3",
     "prisma": "^3.9.2",
@@ -73,6 +74,7 @@
     "@types/jsonwebtoken": "8.5.8",
     "@types/morgan": "1.9.3",
     "@types/node": "16.11.24",
+    "@types/node-fetch": "2",
     "@types/nodemailer": "6.4.4",
     "ts-node": "10.5.0",
     "ts-node-dev": "1.1.8"
